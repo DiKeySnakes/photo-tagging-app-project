@@ -1,79 +1,56 @@
-import { intervalToDuration } from 'date-fns';
-import { useEffect } from 'react';
+import { intervalToDuration, Duration } from 'date-fns';
 
-export interface ITimer {
-  minutes: number;
-  seconds: number;
+function padZero(num: number): string {
+  return num.toString().padStart(2, '0');
+}
+
+interface IExtendedDuration extends Duration {
   ms: number;
 }
 
 interface ITimerProps {
-  isGameActive: boolean;
-  updateCurrentTime: (time: number) => void;
-  updateStartTime: (time: number) => void;
-  startTime: number;
-  currentTime: number;
-  finalTimerTime: {
-    minutes: number;
-    seconds: number;
-    ms: number;
-  };
+  timeTaken: number | Date;
 }
 
-function Timer({
-  isGameActive,
-  updateCurrentTime,
-  updateStartTime,
-  startTime,
-  currentTime,
-  finalTimerTime,
-}: ITimerProps) {
-  useEffect(() => {
-    updateCurrentTime(Date.now());
-    let interval: NodeJS.Timeout | null = null;
+function Timer({ timeTaken }: ITimerProps): JSX.Element {
+  const timeTakenMs =
+    typeof timeTaken === 'number' ? timeTaken : timeTaken.getTime();
+  const duration: IExtendedDuration = {
+    years: 0,
+    months: 0,
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+    ms: 0, // Initialize ms property
+  };
 
-    if (isGameActive) {
-      updateStartTime(Date.now());
-      interval = setInterval(() => {
-        updateStartTime(Date.now());
-      }, 1000);
-    }
+  const calculatedDuration = intervalToDuration({ start: 0, end: timeTakenMs });
+  duration.years = calculatedDuration.years;
+  duration.months = calculatedDuration.months;
+  duration.days = calculatedDuration.days;
+  duration.hours = calculatedDuration.hours;
+  duration.minutes = calculatedDuration.minutes;
+  duration.seconds = calculatedDuration.seconds;
 
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-  }, [isGameActive, updateStartTime, updateCurrentTime]);
+  // Manually add ms since duration doesn't give it
+  duration.ms = Math.round((timeTakenMs % 1000) / 10);
 
-  const duration = intervalToDuration({
-    start: new Date(startTime),
-    end: new Date(currentTime),
+  let formattedTimer = '';
+  // Pad all times with a zero
+  Object.keys(duration).forEach((timeUnit) => {
+    (duration as any)[timeUnit] = padZero((duration as any)[timeUnit]);
+
+    if (
+      (duration as any)[timeUnit] !== '00' &&
+      !['minutes', 'seconds', 'ms'].includes(timeUnit)
+    )
+      formattedTimer += `${(duration as any)[timeUnit]}:`;
   });
 
-  const ms = (startTime - currentTime) % 1000;
-  const { minutes = 0, seconds = 0 } = duration;
+  formattedTimer += `${duration.minutes}:${duration.seconds}:${duration.ms}`;
 
-  const formattedDurationProps = isGameActive
-    ? { minutes, seconds, ms }
-    : finalTimerTime;
-
-  return (
-    <p className='text-lg mx-6'>
-      <FormattedDuration {...formattedDurationProps} />
-    </p>
-  );
-}
-
-function FormattedDuration({ minutes, seconds, ms }: ITimer) {
-  const formatter = new Intl.NumberFormat('en', { minimumIntegerDigits: 2 });
-
-  return (
-    <span>
-      {formatter.format(minutes)}:{formatter.format(seconds)}:
-      {formatter.format(ms)}
-    </span>
-  );
+  return <p className='game-timer'>{formattedTimer}</p>;
 }
 
 export default Timer;

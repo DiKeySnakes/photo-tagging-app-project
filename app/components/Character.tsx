@@ -6,15 +6,21 @@ export interface ICharacter {
   image: string;
   found: boolean;
 }
-function Character(character: ICharacter) {
+
+interface ICharacterProps {
+  key: string;
+  character: ICharacter;
+}
+
+function Character(props: ICharacterProps) {
   return (
     <div className='character'>
       <Image
-        src={character.image}
-        alt={character.name}
+        src={props.character.image}
+        alt={props.character.name}
         className='character-image'
       />
-      <p className='character-name'>{character.name}</p>
+      <p className='character-name'>{props.character.name}</p>
     </div>
   );
 }
