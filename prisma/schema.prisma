@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGO_URI")
+}
+
+model Game {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  name   String
+  levels Level[]
+}
+
+model Level {
+  id          String             @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  image       String
+  characters  Character[]
+  leaderboard LeaderboardEntry[]
+  gameId      String             @db.ObjectId
+  game        Game               @relation(fields: [gameId], references: [id])
+}
+
+model Character {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  image         String
+  found         Boolean
+  coordinatesId String      @db.ObjectId
+  coordinates   Coordinates @relation(fields: [coordinatesId], references: [id])
+  levelId       String      @db.ObjectId
+  level         Level       @relation(fields: [levelId], references: [id])
+}
+
+model Coordinates {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  x         Int
+  y         Int
+  Character Character[]
+}
+
+model LeaderboardEntry {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  timeTaken     DateTime
+  dateSubmitted DateTime
+  createdAt     DateTime @default(now())
+  levelId       String   @db.ObjectId
+  level         Level    @relation(fields: [levelId], references: [id])
+}
