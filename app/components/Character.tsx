@@ -5,6 +5,10 @@ export interface ICharacter {
   name: string;
   image: string;
   found: boolean;
+  // coordinates: {
+  //   x: number;
+  //   y: number;
+  // };
 }
 
 interface ICharacterProps {

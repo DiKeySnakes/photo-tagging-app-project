@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import getLevelById from '../helpers/getLevelById';
-import '../css/GameLevel.css';
+import getCharacterCoordinates from '../helpers/getCharacterCoordinates';
 import Instructions from './Instructions';
 import Loading from './Loading';
 import Notification from './Notification';
@@ -35,8 +35,10 @@ function GameLevel() {
     y: 0,
   });
   const [foundList, setFoundList] = useState<ICharacter[]>([]);
-  const [currentTimeout, setCurrentTimeout] = useState<number | null>(null);
-  const [timer, setTimer] = useState<number | null>(null);
+  const [currentTimeout, setCurrentTimeout] = useState<NodeJS.Timeout | null>(
+    null
+  );
+  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
   const imageRef = useRef<HTMLDivElement | null>(null);
   const originalImg = useRef<HTMLImageElement | null>(null);
 
@@ -68,29 +70,43 @@ function GameLevel() {
     setIsStarted(true);
     setStartTime(Date.now());
     setCurrentTime(Date.now());
-    const intervalId = setInterval(() => setCurrentTime(Date.now()), 25);
+    const intervalId: NodeJS.Timeout = setInterval(
+      () => setCurrentTime(Date.now()),
+      25
+    );
     setTimer(intervalId);
   };
 
   useEffect(() => {
     // if the game is over
-    if (foundList.length === level?.characters?.length) {
+    if (
+      level !== 'not found' &&
+      level !== null &&
+      foundList.length === level.characters.length
+    ) {
       setIsGameOver(true);
       if (timer) clearInterval(timer);
     }
-  }, [foundList.length, level]);
+  }, [foundList.length, level, timer]);
 
-  // Work out the x and y coord as a percentage of the width.
   const getActualCoords = (x: number, y: number) => {
     // Gets original image's x and y percentage
+    const originalImgRef = originalImg.current;
+    const imageRefElement = imageRef.current;
+
+    if (!originalImgRef || !imageRefElement) {
+      // Handle the case where the refs are not set
+      return { x: 0, y: 0 };
+    }
+
     const percentage = {
-      x: (x / originalImg.current?.naturalWidth || 1) * 100,
-      y: (y / originalImg.current?.naturalHeight || 1) * 100,
+      x: (x / (originalImgRef.naturalWidth || 1)) * 100,
+      y: (y / (originalImgRef.naturalHeight || 1)) * 100,
     };
-    // Convert x and y to decimal and then times by width/height
-    const actualX = (percentage.x / 100) * (imageRef.current?.scrollWidth || 1);
-    const actualY =
-      (percentage.y / 100) * (imageRef.current?.scrollHeight || 1);
+
+    const actualX = (percentage.x / 100) * (imageRefElement.scrollWidth || 1);
+    const actualY = (percentage.y / 100) * (imageRefElement.scrollHeight || 1);
+
     return { x: actualX, y: actualY };
   };
 
@@ -125,11 +141,15 @@ function GameLevel() {
   const handleCharacterClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     setIsDropdownOpen(false);
-    const { submitter } = event.nativeEvent;
-    const submitterId = +submitter.dataset.id;
-    const character = level?.characters.find((char) => char.id === submitterId);
+    const submitter = event.currentTarget as HTMLAnchorElement;
+    const submitterId = +((submitter.dataset.id || '0') as string);
+
+    const character = (level as ILevel)?.characters.find(
+      (char: ICharacter) => char.id === submitterId.toString()
+    );
+
     if (character) {
-      const { x, y } = character.coords;
+      const { x, y } = getCharacterCoordinates(character.id);
       const { x: startX, y: startY } = getActualCoords(x.start, y.start);
       const { x: endX, y: endY } = getActualCoords(x.end, y.end);
 
@@ -137,13 +157,14 @@ function GameLevel() {
         inRange(startX, endX, coordsClicked.x) &&
         inRange(startY, endY, coordsClicked.y)
       ) {
-        character.found = true;
-        const foundListItem = {
+        (character as ICharacter).found = true;
+        const foundListItem: ICharacter = {
           x: x.start,
           y: y.start,
-          name: character.name,
-          id: character.id,
+          name: character?.name || '',
+          id: character?.id || -1, // Replace -1 with a suitable default value
         };
+
         setFoundList([...foundList, foundListItem]);
         dispatch(`You found ${character.name}`, true, 3000);
       } else dispatch('Try again.', false, 3000);
