@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { randomUUID } from 'crypto';
 import formatTimeDuration from '../helpers/formatTimeDuration';
-import submitToLeaderboard from '../helpers/submitToLeaderboard';
+import createLeaderboardEntry from '../helpers/createLeaderboardEntry';
 
 interface IGameEndProps {
-  timeTaken: number | Date;
-  levelId: number | string;
+  levelId: string;
+  timeTaken: Date;
 }
 
 function GameEnd({ timeTaken, levelId }: IGameEndProps) {
@@ -19,12 +18,7 @@ function GameEnd({ timeTaken, levelId }: IGameEndProps) {
     e.preventDefault();
 
     try {
-      await submitToLeaderboard(levelId, {
-        name,
-        timeTaken,
-        dateSubmitted: Date.now(),
-        id: randomUUID(),
-      });
+      await createLeaderboardEntry(levelId, name, timeTaken);
       router.push(`/leaderboard?level=${levelId}`);
     } catch (error) {
       setIsErrorActive(true);

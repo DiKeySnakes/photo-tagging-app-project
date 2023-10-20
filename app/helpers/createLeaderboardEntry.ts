@@ -5,15 +5,13 @@ const prisma = new PrismaClient();
 async function createLeaderboardEntry(
   levelId: string,
   name: string,
-  timeTaken: Date,
-  dateSubmitted: Date
+  timeTaken: Date
 ): Promise<LeaderboardEntry> {
   try {
     const leaderboardEntry = await prisma.leaderboardEntry.create({
       data: {
         name: name,
         timeTaken: timeTaken,
-        dateSubmitted: dateSubmitted,
         level: { connect: { id: levelId } },
       },
     });
@@ -28,3 +26,5 @@ async function createLeaderboardEntry(
     await prisma.$disconnect();
   }
 }
+
+export default createLeaderboardEntry;

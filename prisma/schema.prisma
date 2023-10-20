@@ -42,11 +42,10 @@ model Coordinates {
 }
 
 model LeaderboardEntry {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  timeTaken     DateTime
-  dateSubmitted DateTime
-  createdAt     DateTime @default(now())
-  levelId       String   @db.ObjectId
-  level         Level    @relation(fields: [levelId], references: [id])
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  timeTaken DateTime
+  createdAt DateTime @default(now())
+  levelId   String   @db.ObjectId
+  level     Level    @relation(fields: [levelId], references: [id])
 }
