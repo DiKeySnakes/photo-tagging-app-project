@@ -1,7 +1,7 @@
 interface IGameImageProps {
   image: string;
   name: string;
-  onImageClick: () => void;
+  onImageClick: (e: React.MouseEvent<HTMLDivElement>) => void;
   foundList: {
     x: number;
     y: number;

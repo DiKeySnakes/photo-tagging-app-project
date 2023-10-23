@@ -25,6 +25,7 @@ model Level {
 
 model Character {
   id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  position      Int
   name          String
   image         String
   found         Boolean
@@ -35,16 +36,32 @@ model Character {
 }
 
 model Coordinates {
-  id        String      @id @default(auto()) @map("_id") @db.ObjectId
-  x         Int
-  y         Int
-  Character Character[]
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  x              XCoordinates @relation(fields: [xCoordinatesId], references: [id])
+  y              YCoordinates @relation(fields: [yCoordinatesId], references: [id])
+  xCoordinatesId String       @db.ObjectId
+  yCoordinatesId String       @db.ObjectId
+  Character      Character[]
+}
+
+model XCoordinates {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  startX      Int
+  endX        Int
+  Coordinates Coordinates[]
+}
+
+model YCoordinates {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  startY      Int
+  endY        Int
+  Coordinates Coordinates[]
 }
 
 model LeaderboardEntry {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  timeTaken DateTime
+  timeTaken Int
   createdAt DateTime @default(now())
   levelId   String   @db.ObjectId
   level     Level    @relation(fields: [levelId], references: [id])

@@ -5,7 +5,7 @@ import createLeaderboardEntry from '../helpers/createLeaderboardEntry';
 
 interface IGameEndProps {
   levelId: string;
-  timeTaken: Date;
+  timeTaken: number;
 }
 
 function GameEnd({ timeTaken, levelId }: IGameEndProps) {

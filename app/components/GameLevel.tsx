@@ -19,6 +19,13 @@ export interface ILevel {
   characters: ICharacter[];
 }
 
+interface IFoundListItem {
+  x: number;
+  y: number;
+  name: string;
+  position: number;
+}
+
 function GameLevel() {
   const { id } = useParams();
   const [level, setLevel] = useState<ILevel | 'not found' | null>(null);
@@ -34,7 +41,7 @@ function GameLevel() {
     x: 0,
     y: 0,
   });
-  const [foundList, setFoundList] = useState<ICharacter[]>([]);
+  const [foundList, setFoundList] = useState<IFoundListItem[]>([]);
   const [currentTimeout, setCurrentTimeout] = useState<NodeJS.Timeout | null>(
     null
   );
@@ -139,35 +146,47 @@ function GameLevel() {
   };
 
   const handleCharacterClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
+    // event.preventDefault();
     setIsDropdownOpen(false);
     const submitter = event.currentTarget as HTMLAnchorElement;
-    const submitterId = +((submitter.dataset.id || '0') as string);
+    const submitterId = +(submitter.dataset.id || 0);
 
     const character = (level as ILevel)?.characters.find(
-      (char: ICharacter) => char.id === submitterId.toString()
+      (char: ICharacter) => char.position === submitterId
     );
 
     if (character) {
-      const { x, y } = getCharacterCoordinates(character.id);
-      const { x: startX, y: startY } = getActualCoords(x.start, y.start);
-      const { x: endX, y: endY } = getActualCoords(x.end, y.end);
+      getCharacterCoordinates(character.id)
+        .then((coordinates) => {
+          if (coordinates) {
+            const x = coordinates.x;
+            const y = coordinates.y;
+            const { x: startX, y: startY } = getActualCoords(
+              x.startX,
+              y.startY
+            );
+            const { x: endX, y: endY } = getActualCoords(x.endX, y.endY);
 
-      if (
-        inRange(startX, endX, coordsClicked.x) &&
-        inRange(startY, endY, coordsClicked.y)
-      ) {
-        (character as ICharacter).found = true;
-        const foundListItem: ICharacter = {
-          x: x.start,
-          y: y.start,
-          name: character?.name || '',
-          id: character?.id || -1, // Replace -1 with a suitable default value
-        };
+            if (
+              inRange(startX, endX, coordsClicked.x) &&
+              inRange(startY, endY, coordsClicked.y)
+            ) {
+              (character as ICharacter).found = true;
+              const foundListItem: IFoundListItem = {
+                x: x.startX,
+                y: y.startY,
+                name: character?.name || '',
+                position: character?.position,
+              };
 
-        setFoundList([...foundList, foundListItem]);
-        dispatch(`You found ${character.name}`, true, 3000);
-      } else dispatch('Try again.', false, 3000);
+              setFoundList([...foundList, foundListItem]);
+              dispatch(`You found ${character.name}`, true, 3000);
+            } else dispatch('Try again.', false, 3000);
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
     }
   };
 
@@ -178,6 +197,11 @@ function GameLevel() {
   if (level == null) return <Loading />;
 
   const timeTaken = currentTime - startTime;
+
+  const containerSize = {
+    height: imageRef.current?.scrollHeight ?? 0,
+    width: imageRef.current?.scrollWidth ?? 0,
+  };
 
   return (
     <div className='game-level'>
@@ -194,8 +218,8 @@ function GameLevel() {
 
         <div className='game-image' ref={imageRef}>
           <GameImage
-            photo={level.image}
             name={level.name}
+            image={level.image}
             onImageClick={handleImageClick}
             foundList={
               // Hide the found list if the game is over

@@ -5,6 +5,7 @@ export interface ICharacter {
   name: string;
   image: string;
   found: boolean;
+  position: number;
   // coordinates: {
   //   x: number;
   //   y: number;

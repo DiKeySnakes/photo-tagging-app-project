@@ -10,7 +10,12 @@ async function getCharacterCoordinates(characterId: string) {
         id: characterId,
       },
       include: {
-        coordinates: true,
+        coordinates: {
+          include: {
+            x: true,
+            y: true,
+          },
+        },
       },
     });
 

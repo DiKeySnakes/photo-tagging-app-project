@@ -4,7 +4,7 @@ import { ICharacter } from './Character';
 
 interface ICharactersDropdownProps {
   characters: ICharacter[];
-  onCharacterClick: () => void;
+  onCharacterClick: (event: React.MouseEvent<HTMLAnchorElement>) => void;
   coordinates: {
     x: number;
     y: number;
@@ -25,11 +25,14 @@ function CharactersDropdown({
     (character) => !character.found
   );
 
+  const adaptedOnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const adaptedEvent =
+      event as unknown as React.MouseEvent<HTMLAnchorElement>;
+    onCharacterClick(adaptedEvent);
+  };
+
   return (
-    <form
-      action=''
-      onSubmit={onCharacterClick}
-      className='game-level-characters-dropdown'>
+    <div className='game-level-characters-dropdown'>
       <Dropdown
         x={coordinates.x}
         y={coordinates.y}
@@ -37,7 +40,8 @@ function CharactersDropdown({
         {availableCharacters.map((character) => (
           <li key={character.id} className='character-list-item'>
             <button
-              type='submit'
+              type='button'
+              onClick={adaptedOnClick}
               className='character-button-submit'
               data-id={character.id}>
               <Image src={character.image} alt={character.name} />
@@ -46,7 +50,7 @@ function CharactersDropdown({
           </li>
         ))}
       </Dropdown>
-    </form>
+    </div>
   );
 }
 

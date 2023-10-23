@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 async function createLeaderboardEntry(
   levelId: string,
   name: string,
-  timeTaken: Date
+  timeTaken: number
 ): Promise<LeaderboardEntry> {
   try {
     const leaderboardEntry = await prisma.leaderboardEntry.create({
