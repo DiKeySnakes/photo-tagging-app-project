@@ -17,7 +17,7 @@ async function getLevelById(levelId: string) {
       },
       include: {
         characters: true,
-        leaderboard: false,
+        leaderboard: true,
         game: false,
       },
     });

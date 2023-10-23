@@ -1,11 +1,12 @@
-import Header from './components/Header';
+import React from 'react';
+import Leaderboard from '../components/Leaderboard';
+import Header from '../components/Header';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import Home from './components/Home';
 
 function GithubLink() {
   return (
     <a
-      href='https://github.com/Sharkri/where-is-waldo'
+      href='#'
       className='github-repo'
       target='_blank'
       rel='noreferrer'
@@ -15,13 +16,13 @@ function GithubLink() {
   );
 }
 
-export default function HomePage() {
+export default function LeaderboardPage() {
   return (
-    <main className='bg-base-200'>
+    <>
       <Header>
         <GithubLink />
       </Header>
-      <Home />
-    </main>
+      <Leaderboard />
+    </>
   );
 }

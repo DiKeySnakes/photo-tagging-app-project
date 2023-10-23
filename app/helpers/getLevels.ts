@@ -1,8 +1,9 @@
-import { PrismaClient, Level } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+import { ILevel } from '../components/GameLevel';
 
 const prisma = new PrismaClient();
 
-async function getLevels(): Promise<Level[]> {
+async function getLevels(): Promise<ILevel[]> {
   try {
     const levels = await prisma.level.findMany({
       include: {

@@ -4,17 +4,12 @@ interface ILeaderboardEntry {
   id: string;
   name: string;
   timeTaken: Date | number;
-  dateSubmitted: Date | number;
+  createdAt: Date | number;
 }
 
 interface ILeaderboardTableProps {
   leaderboard: ILeaderboardEntry[];
 }
-
-// Example usage:
-const defaultProps: ILeaderboardTableProps = {
-  leaderboard: [],
-};
 
 function LeaderboardTable({ leaderboard }: ILeaderboardTableProps) {
   if (!leaderboard) {
@@ -56,7 +51,7 @@ function LeaderboardTable({ leaderboard }: ILeaderboardTableProps) {
               id={submission.id}
               name={submission.name}
               timeTaken={submission.timeTaken}
-              dateSubmitted={submission.dateSubmitted}
+              dateSubmitted={submission.createdAt}
               key={submission.id}
             />
           ))}

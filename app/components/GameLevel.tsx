@@ -11,12 +11,13 @@ import GameImage from './GameImage';
 import GameEnd from './GameEnd';
 import PageNotFound from './PageNotFound';
 import { ICharacter } from './Character';
-
+import { LeaderboardEntry } from '@prisma/client';
 export interface ILevel {
   id: string;
   name: string;
   image: string;
   characters: ICharacter[];
+  leaderboard: LeaderboardEntry[];
 }
 
 interface IFoundListItem {
