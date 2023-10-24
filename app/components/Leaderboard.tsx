@@ -1,6 +1,7 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
-import '../css/Leaderboard.css';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 import Loading from './Loading';
 import useLevels from '../hooks/useLevels';
 import LevelPreview from './LevelPreview';
@@ -9,9 +10,8 @@ import { ILevel } from './GameLevel';
 
 function Leaderboard() {
   const levels = useLevels();
-  const router = useRouter();
-  const { query } = router;
-  const levelId = query.level;
+  const searchParams = useSearchParams();
+  const levelId = searchParams.get('level');
 
   const [activeLevel, setActiveLevel] = useState<ILevel | null>(null);
 

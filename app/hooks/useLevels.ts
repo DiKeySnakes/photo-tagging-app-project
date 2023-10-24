@@ -1,5 +1,7 @@
+'use client';
+
 import { useEffect, useState } from 'react';
-import getLevels from '@/app/helpers/getLevels';
+// import getLevels from '@/app/helpers/getLevels';
 import { ICharacter } from '../components/Character';
 import { LeaderboardEntry } from '@prisma/client';
 
@@ -14,8 +16,20 @@ export default function useLevels() {
     }[]
   >([]);
 
+  async function fetchLevels() {
+    const res = await fetch('/api/levels', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const levelsData = await res.json();
+
+    return levelsData;
+  }
+
   useEffect(() => {
-    getLevels().then((fetchedLevels) => {
+    fetchLevels().then((fetchedLevels) => {
       setLevels(fetchedLevels);
     });
   }, []);

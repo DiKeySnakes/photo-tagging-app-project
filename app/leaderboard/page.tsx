@@ -1,7 +1,10 @@
-import React from 'react';
+import { Suspense } from 'react';
 import Leaderboard from '../components/Leaderboard';
 import Header from '../components/Header';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+
+function LeaderboardFallback() {
+  return <>placeholder</>;
+}
 
 function GithubLink() {
   return (
@@ -11,7 +14,7 @@ function GithubLink() {
       target='_blank'
       rel='noreferrer'
       aria-label='GitHub Repo'>
-      <i className='fa-brands fa-github' />
+      <span>icon here</span>
     </a>
   );
 }
@@ -22,7 +25,9 @@ export default function LeaderboardPage() {
       <Header>
         <GithubLink />
       </Header>
-      <Leaderboard />
+      <Suspense fallback={<LeaderboardFallback />}>
+        <Leaderboard />
+      </Suspense>
     </>
   );
 }

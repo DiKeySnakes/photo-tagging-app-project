@@ -1,3 +1,5 @@
+'use client';
+
 import GameLevel from '@/app/components/GameLevel';
 
 export default function LevelId() {

@@ -1,7 +1,6 @@
 import React from 'react';
-import '../css/LoadingScreen.css';
 
-function LoadingScreen() {
+function Loading() {
   return (
     <div className='screen'>
       <div className='loader'>
@@ -13,4 +12,4 @@ function LoadingScreen() {
   );
 }
 
-export default LoadingScreen;
+export default Loading;

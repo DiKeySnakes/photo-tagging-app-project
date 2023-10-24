@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import getLevelById from '../helpers/getLevelById';
