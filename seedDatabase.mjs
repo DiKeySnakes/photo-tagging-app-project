@@ -207,14 +207,14 @@ async function seedDatabase() {
                       create: {
                         x: {
                           create: {
-                            startX: 10,
-                            endX: 20,
+                            startX: 130,
+                            endX: 139,
                           },
                         },
                         y: {
                           create: {
-                            startY: 30,
-                            endY: 40,
+                            startY: 130,
+                            endY: 139,
                           },
                         },
                       },
@@ -222,20 +222,125 @@ async function seedDatabase() {
                   },
                   {
                     position: 2,
-                    name: 'Mike Wazowski',
-                    image: './images/mike-wazowski.png',
+                    name: 'Tom',
+                    image: './images/tom.png',
                     coordinates: {
                       create: {
                         x: {
                           create: {
-                            startX: 50,
-                            endX: 60,
+                            startX: 230,
+                            endX: 239,
                           },
                         },
                         y: {
                           create: {
-                            startY: 70,
-                            endY: 80,
+                            startY: 230,
+                            endY: 239,
+                          },
+                        },
+                      },
+                    },
+                  },
+                  {
+                    position: 3,
+                    name: 'Smiler',
+                    image: './images/smiler.png',
+                    coordinates: {
+                      create: {
+                        x: {
+                          create: {
+                            startX: 330,
+                            endX: 339,
+                          },
+                        },
+                        y: {
+                          create: {
+                            startY: 330,
+                            endY: 339,
+                          },
+                        },
+                      },
+                    },
+                  },
+                  {
+                    position: 4,
+                    name: 'Patrick Star',
+                    image: './images/patrick-star.png',
+                    coordinates: {
+                      create: {
+                        x: {
+                          create: {
+                            startX: 430,
+                            endX: 439,
+                          },
+                        },
+                        y: {
+                          create: {
+                            startY: 430,
+                            endY: 439,
+                          },
+                        },
+                      },
+                    },
+                  },
+                  {
+                    position: 5,
+                    name: 'Daggett Beaver',
+                    image: './images/daggett-beaver.png',
+                    coordinates: {
+                      create: {
+                        x: {
+                          create: {
+                            startX: 530,
+                            endX: 539,
+                          },
+                        },
+                        y: {
+                          create: {
+                            startY: 530,
+                            endY: 539,
+                          },
+                        },
+                      },
+                    },
+                  },
+                  {
+                    position: 6,
+                    name: 'Six',
+                    image: './images/six.png',
+                    coordinates: {
+                      create: {
+                        x: {
+                          create: {
+                            startX: 630,
+                            endX: 639,
+                          },
+                        },
+                        y: {
+                          create: {
+                            startY: 630,
+                            endY: 639,
+                          },
+                        },
+                      },
+                    },
+                  },
+                  {
+                    position: 6,
+                    name: 'Dandelion',
+                    image: './images/dandelion.png',
+                    coordinates: {
+                      create: {
+                        x: {
+                          create: {
+                            startX: 730,
+                            endX: 739,
+                          },
+                        },
+                        y: {
+                          create: {
+                            startY: 730,
+                            endY: 739,
                           },
                         },
                       },
