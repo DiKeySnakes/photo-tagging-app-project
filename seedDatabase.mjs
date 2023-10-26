@@ -12,13 +12,13 @@ async function seedDatabase() {
           create: [
             {
               name: 'Robot City',
-              image: './images/egor-klyuchnyk-robot-city.jpg',
+              image: '/images/egor-klyuchnyk-robot-city.jpg',
               characters: {
                 create: [
                   {
                     position: 1,
                     name: 'Ghostface',
-                    image: './images/ghostface.png',
+                    image: '/images/ghostface.png',
                     found: false,
                     coordinates: {
                       create: {
@@ -40,7 +40,7 @@ async function seedDatabase() {
                   {
                     position: 2,
                     name: 'Mike Wazowski',
-                    image: './images/mike-wazowski.png',
+                    image: '/images/mike-wazowski.png',
                     found: false,
                     coordinates: {
                       create: {
@@ -62,7 +62,7 @@ async function seedDatabase() {
                   {
                     position: 3,
                     name: 'Leonardo',
-                    image: './images/leonardo.png',
+                    image: '/images/leonardo.png',
                     found: false,
                     coordinates: {
                       create: {
@@ -86,13 +86,13 @@ async function seedDatabase() {
             },
             {
               name: 'Cyberpunk City',
-              image: './images/egor-klyuchnyk-cyberpunk-city.jpg',
+              image: '/images/egor-klyuchnyk-cyberpunk-city.jpg',
               characters: {
                 create: [
                   {
                     position: 1,
                     name: 'Stewie Griffin',
-                    image: './images/stewie-griffin.png',
+                    image: '/images/stewie-griffin.png',
                     found: false,
                     coordinates: {
                       create: {
@@ -114,7 +114,7 @@ async function seedDatabase() {
                   {
                     position: 2,
                     name: 'Patrick Star',
-                    image: './images/patrick-star.png',
+                    image: '/images/patrick-star.png',
                     found: false,
                     coordinates: {
                       create: {
@@ -136,7 +136,7 @@ async function seedDatabase() {
                   {
                     position: 3,
                     name: 'Darkwing Duck',
-                    image: './images/darkwing-duck.png',
+                    image: '/images/darkwing-duck.png',
                     found: false,
                     coordinates: {
                       create: {
@@ -158,7 +158,7 @@ async function seedDatabase() {
                   {
                     position: 4,
                     name: 'Wally',
-                    image: './images/wally.png',
+                    image: '/images/wally.png',
                     found: false,
                     coordinates: {
                       create: {
@@ -180,7 +180,7 @@ async function seedDatabase() {
                   {
                     position: 5,
                     name: 'Brian Griffin',
-                    image: './images/brian-griffin.png',
+                    image: '/images/brian-griffin.png',
                     found: false,
                     coordinates: {
                       create: {
@@ -204,13 +204,13 @@ async function seedDatabase() {
             },
             {
               name: 'Under City',
-              image: './images/egor-klyuchnyk-under-city.jpg',
+              image: '/images/egor-klyuchnyk-under-city.jpg',
               characters: {
                 create: [
                   {
                     position: 1,
                     name: 'Ghostface',
-                    image: './images/ghostface.png',
+                    image: '/images/ghostface.png',
                     found: false,
                     coordinates: {
                       create: {
@@ -232,7 +232,7 @@ async function seedDatabase() {
                   {
                     position: 2,
                     name: 'Tom',
-                    image: './images/tom.png',
+                    image: '/images/tom.png',
                     found: false,
                     coordinates: {
                       create: {
@@ -254,7 +254,7 @@ async function seedDatabase() {
                   {
                     position: 3,
                     name: 'Smiler',
-                    image: './images/smiler.png',
+                    image: '/images/smiler.png',
                     found: false,
                     coordinates: {
                       create: {
@@ -276,7 +276,7 @@ async function seedDatabase() {
                   {
                     position: 4,
                     name: 'Patrick Star',
-                    image: './images/patrick-star.png',
+                    image: '/images/patrick-star.png',
                     found: false,
                     coordinates: {
                       create: {
@@ -298,7 +298,7 @@ async function seedDatabase() {
                   {
                     position: 5,
                     name: 'Daggett Beaver',
-                    image: './images/daggett-beaver.png',
+                    image: '/images/daggett-beaver.png',
                     found: false,
                     coordinates: {
                       create: {
@@ -320,7 +320,7 @@ async function seedDatabase() {
                   {
                     position: 6,
                     name: 'Six',
-                    image: './images/six.png',
+                    image: '/images/six.png',
                     found: false,
                     coordinates: {
                       create: {
@@ -342,7 +342,7 @@ async function seedDatabase() {
                   {
                     position: 7,
                     name: 'Dandelion',
-                    image: './images/dandelion.png',
+                    image: '/images/dandelion.png',
                     found: false,
                     coordinates: {
                       create: {

@@ -18,12 +18,17 @@ const defaultProps: Partial<ILevelPreviewProps> = {
 function LevelPreview({ level, showCharacters }: ILevelPreviewProps) {
   return (
     <div
-      className='level-preview-card'
+      // level-preview-card
+      className='h-[100%] relative border-0 rounded-lg bg-transparent block'
       data-characters-showing={showCharacters}>
-      <div className='level-preview-card-image-container'>
+      {/* level-preview-card-image-container */}
+      <div className='overflow-hidden w-96 h-96'>
         <Image
           src={level.image}
           alt={level.name}
+          width={100}
+          height={100}
+          // level-preview-card-image
           className='level-preview-card-image'
         />
       </div>
@@ -36,6 +41,8 @@ function LevelPreview({ level, showCharacters }: ILevelPreviewProps) {
                 key={id}
                 src={image}
                 alt={level.name}
+                width={100}
+                height={100}
                 className='level-preview-card-character-photo'
               />
             ))}

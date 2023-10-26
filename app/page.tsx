@@ -22,6 +22,7 @@ function GithubLink() {
 
 export default function HomePage() {
   const levels = useLevels();
+  console.log('levels:', levels);
   if (levels == null) return <Loading />;
 
   return (
