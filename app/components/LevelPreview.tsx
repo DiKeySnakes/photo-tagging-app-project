@@ -18,36 +18,24 @@ const defaultProps: Partial<ILevelPreviewProps> = {
 function LevelPreview({ level, showCharacters }: ILevelPreviewProps) {
   return (
     <div
-      // level-preview-card
-      className='h-[100%] relative border-0 rounded-lg bg-transparent block'
+      className='h-full p-8 border-2 border-neutral rounded-xl'
       data-characters-showing={showCharacters}>
-      {/* level-preview-card-image-container */}
-      <div className='overflow-hidden w-96 h-96'>
-        <Image
-          src={level.image}
-          alt={level.name}
-          width={100}
-          height={100}
-          // level-preview-card-image
-          className='level-preview-card-image'
-        />
+      <div className='flex justify-center mb-4'>
+        <h2 className='card-title'>{level.name}</h2>
       </div>
-      <div className='level-preview-card-info'>
-        <p className='level-preview-card-name'>{level.name}</p>
-        {showCharacters && level.characters.length > 0 && (
-          <div className='level-preview-card-character-photos'>
-            {level.characters.map(({ image, id }) => (
-              <Image
-                key={id}
-                src={image}
-                alt={level.name}
-                width={100}
-                height={100}
-                className='level-preview-card-character-photo'
-              />
-            ))}
-          </div>
-        )}
+
+      <div className='card w-96 bg-base-100 shadow-xl'>
+        <figure className='px-10 pt-10 mt-10 w-full h-80'>
+          <Image
+            src={level.image}
+            alt={level.name}
+            quality={100}
+            fill
+            sizes='100vw'
+            className='rounded-xl'
+            style={{ objectFit: 'cover' }}
+          />
+        </figure>
       </div>
     </div>
   );

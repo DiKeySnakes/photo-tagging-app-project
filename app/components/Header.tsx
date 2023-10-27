@@ -1,5 +1,6 @@
 import Link from 'next/link';
-
+import { AiFillHome } from 'react-icons/ai';
+import { AiFillStar } from 'react-icons/ai';
 interface IHeaderProps {
   children?: React.ReactNode;
   className?: string;
@@ -13,19 +14,22 @@ const defaultProps: IHeaderProps = {
 function Header({ children, className }: IHeaderProps) {
   return (
     <header className={className}>
-      <ul className='links'>
+      <ul className='w-full flex flex-row content-between items-center gap-4'>
         <li>
-          <Link href='/' aria-label='home'>
-            <i className='fa-solid fa-house' title='Homepage' />
-          </Link>
+          <div className='mr-4'>
+            <Link href='/' aria-label='home'>
+              <AiFillHome size={24} />
+            </Link>
+          </div>
         </li>
         <li>
           <Link href='/leaderboard'>
-            <span className='leaderboard-link-text'>Leaderboard</span>
-            <i
-              className='fa-solid fa-ranking-star leaderboard-link-icon'
-              title='Leaderboard'
-            />
+            <span className='flex flex-row items-center text-2xl'>
+              Leaderboard
+              <div className='ml-2'>
+                <AiFillStar />
+              </div>
+            </span>
           </Link>
         </li>
       </ul>
