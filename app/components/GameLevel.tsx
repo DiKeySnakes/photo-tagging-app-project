@@ -2,9 +2,8 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
-import getLevelById from '../helpers/getLevelById';
 import getCharacterCoordinates from '../helpers/getCharacterCoordinates';
-import Instructions from './Instructions';
+import GameStartModal from './GameStartModal';
 import Loading from './Loading';
 import Notification from './Notification';
 import LevelHeader from './LevelHeader';
@@ -14,6 +13,11 @@ import GameEnd from './GameEnd';
 import PageNotFound from './PageNotFound';
 import { ICharacter } from './Character';
 import { LeaderboardEntry } from '@prisma/client';
+
+export interface IGameLevelParams {
+  levels: ILevel[];
+}
+
 export interface ILevel {
   id: string;
   name: string;
@@ -29,8 +33,11 @@ interface IFoundListItem {
   position: number;
 }
 
-function GameLevel() {
-  const { id } = useParams();
+function GameLevel(levels: IGameLevelParams) {
+  const params = useParams();
+  console.log('params:', params);
+  const id = params.levelId;
+  console.log('levelId:', id);
   const [level, setLevel] = useState<ILevel | 'not found' | null>(null);
   const [isStarted, setIsStarted] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
@@ -52,24 +59,46 @@ function GameLevel() {
   const imageRef = useRef<HTMLDivElement | null>(null);
   const originalImg = useRef<HTMLImageElement | null>(null);
 
+  const openModal = () => {
+    const modalElement = document.getElementById(
+      'game-start-modal'
+    ) as HTMLFormElement;
+    if (modalElement) {
+      modalElement.showModal();
+    } else {
+      console.error("Modal element with ID 'game-start-modal' not found");
+    }
+    return null;
+  };
+
+  const closeModal = () => {
+    const modalElement = document.getElementById(
+      'game-start-modal'
+    ) as HTMLFormElement;
+    if (modalElement) {
+      modalElement.close();
+    } else {
+      console.error("Modal element with ID 'game-start-modal' not found");
+    }
+    return null;
+  };
+
   useEffect(() => {
-    async function fetchLevel() {
-      try {
-        const lvl = await getLevelById(id.toString());
-        if (lvl !== null) {
-          // Assuming lvl from getLevelById includes the characters property
-          const img = new Image();
-          img.src = lvl.image;
-          originalImg.current = img;
-        }
-        setLevel(lvl);
-      } catch (error: any) {
-        if (error.message === 'No level found') setLevel('not found');
-      }
+    const levelData = levels.levels.find((item) => item.id === id);
+    console.log('levelData:', levelData);
+
+    if (levelData) {
+      // Assuming levelData from the prop includes the characters property
+      const img = new Image();
+      img.src = levelData.image;
+      img.width = 500;
+      img.height = 500;
+      originalImg.current = img;
     }
 
-    fetchLevel();
-  }, [id]);
+    setLevel(levelData || 'not found');
+    console.log('level:', levelData);
+  }, [id, levels]);
 
   // Hide dropdown on resize since x and y coords will be different
   useEffect(() => {
@@ -85,6 +114,7 @@ function GameLevel() {
       25
     );
     setTimer(intervalId);
+    closeModal();
   };
 
   useEffect(() => {
@@ -194,7 +224,7 @@ function GameLevel() {
   };
 
   // Only allow scroll if the game is started
-  document.body.style.overflow = isStarted && !isGameOver ? 'unset' : 'hidden';
+  // document.body.style.overflow = isStarted && !isGameOver ? 'unset' : 'hidden';
 
   if (level === 'not found') return <PageNotFound />;
   if (level == null) return <Loading />;
@@ -207,19 +237,22 @@ function GameLevel() {
   };
 
   return (
-    <div className='game-level'>
-      {!isStarted && <Instructions onStart={onStart} level={level} />}
+    // game-level
+    <div className=''>
+      <GameStartModal onStart={onStart} level={level} />
+      {!isStarted && openModal()}
+      {/* {!isStarted && <p>Game instructions here</p>} */}
       {isGameOver && <GameEnd levelId={level.id} timeTaken={timeTaken} />}
       <LevelHeader timeTaken={timeTaken} characters={level.characters} />
 
-      <div className='game-image-container'>
+      <div className='relative'>
         <Notification
           message={notificationText}
           isShowing={isNotificationShowing}
           success={notificationSuccess}
         />
 
-        <div className='game-image' ref={imageRef}>
+        <div className='w-full' ref={imageRef}>
           <GameImage
             name={level.name}
             image={level.image}

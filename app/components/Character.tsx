@@ -19,13 +19,17 @@ interface ICharacterProps {
 
 function Character(props: ICharacterProps) {
   return (
-    <div className='character'>
+    <div
+      className='flex flex-col justify-center items-center
+    transform scale-100 hover:scale-110 transition-transform ease-in-out duration-300'>
       <Image
         src={props.character.image}
         alt={props.character.name}
+        width={50}
+        height={50}
         className='character-image'
       />
-      <p className='character-name'>{props.character.name}</p>
+      <span className='mt-4 text-lg'>{props.character.name}</span>
     </div>
   );
 }

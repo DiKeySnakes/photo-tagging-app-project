@@ -1,3 +1,6 @@
+// import Image from 'next/image';
+'use client';
+
 interface IGameImageProps {
   image: string;
   name: string;
@@ -16,14 +19,18 @@ function GameImage({ image, name, onImageClick, foundList }: IGameImageProps) {
         type='image'
         src={image}
         alt={name}
+        width='100%'
+        height='100%'
         onClick={onImageClick}
         draggable={false}
-        className='input-game-image'
+        // input-game-image
+        className='block w-full'
       />
 
       {foundList.map((found, index) => (
         <div
-          className='found-item'
+          // found-item
+          className='font-bold p-1 rounded-md text-center text-xs max-w-[100px]'
           data-testid='found-item'
           style={{ position: 'absolute', left: found.x, top: found.y }}
           key={index}>
