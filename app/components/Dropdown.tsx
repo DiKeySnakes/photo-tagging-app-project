@@ -51,7 +51,7 @@ function Dropdown({ x, y, children, containerSize }: IDropdownProps) {
 
   return (
     <ul
-      className='dropdown-select'
+      className='z-10 bg-base-200'
       style={{
         position: 'absolute',
         left: position.left,

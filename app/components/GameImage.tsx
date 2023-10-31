@@ -24,7 +24,7 @@ function GameImage({ image, name, onImageClick, foundList }: IGameImageProps) {
         onClick={onImageClick}
         draggable={false}
         // input-game-image
-        className='block w-full'
+        className='block w-full mt-16'
       />
 
       {foundList.map((found, index) => (

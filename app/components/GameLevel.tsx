@@ -179,7 +179,6 @@ function GameLevel(levels: IGameLevelParams) {
   };
 
   const handleCharacterClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    // event.preventDefault();
     setIsDropdownOpen(false);
     const submitter = event.currentTarget as HTMLAnchorElement;
     const submitterId = +(submitter.dataset.id || 0);
@@ -237,7 +236,7 @@ function GameLevel(levels: IGameLevelParams) {
   };
 
   return (
-    // game-level
+    // relative?
     <div className=''>
       <GameStartModal onStart={onStart} level={level} />
       {!isStarted && openModal()}

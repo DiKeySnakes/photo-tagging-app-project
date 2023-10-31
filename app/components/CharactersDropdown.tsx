@@ -32,20 +32,26 @@ function CharactersDropdown({
   };
 
   return (
-    <div className='game-level-characters-dropdown'>
+    <div className='flex flex-col gap-1 rounded-md'>
       <Dropdown
         x={coordinates.x}
         y={coordinates.y}
         containerSize={containerSize}>
         {availableCharacters.map((character) => (
-          <li key={character.id} className='character-list-item'>
+          <li
+            key={character.id}
+            className='transition-all duration-300 hover:scale-105 hover:bg-base-300'>
             <button
-              type='button'
               onClick={adaptedOnClick}
-              className='character-button-submit'
+              className='flex items-center gap-4 px-3 py-4 w-full'
               data-id={character.id}>
-              <Image src={character.image} alt={character.name} />
-              <span className='character-name'>{character.name}</span>
+              <Image
+                src={character.image}
+                alt={character.name}
+                width={50}
+                height={50}
+              />
+              <span className='text-xl font-semibold'>{character.name}</span>
             </button>
           </li>
         ))}
