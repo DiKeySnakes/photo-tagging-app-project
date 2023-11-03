@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
-import getCharacterCoordinates from '../helpers/getCharacterCoordinates';
 import GameStartModal from './GameStartModal';
 import Loading from './Loading';
 import Notification from './Notification';
@@ -35,9 +34,7 @@ interface IFoundListItem {
 
 function GameLevel(levels: IGameLevelParams) {
   const params = useParams();
-  console.log('params:', params);
   const id = params.levelId;
-  console.log('levelId:', id);
   const [level, setLevel] = useState<ILevel | 'not found' | null>(null);
   const [isStarted, setIsStarted] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
@@ -154,6 +151,9 @@ function GameLevel(levels: IGameLevelParams) {
     if (!isStarted || isGameOver) return;
     setIsDropdownOpen(!isDropdownOpen);
     const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    console.log('x, y:', x, y);
     setCoordsClicked({
       x: e.clientX - rect.left,
       y: e.clientY - rect.top,
@@ -178,19 +178,35 @@ function GameLevel(levels: IGameLevelParams) {
     setCurrentTimeout(timeoutId);
   };
 
+  async function fetchCoordinates(characterId: string) {
+    const res = await fetch(`/api/coordinates/${characterId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const coordinatesData = await res.json();
+
+    return coordinatesData;
+  }
+
   const handleCharacterClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     setIsDropdownOpen(false);
     const submitter = event.currentTarget as HTMLAnchorElement;
-    const submitterId = +(submitter.dataset.id || 0);
+    console.log('submitter:', submitter);
+    const submitterId = submitter.dataset.id;
+    console.log('submitterId:', submitterId);
 
     const character = (level as ILevel)?.characters.find(
-      (char: ICharacter) => char.position === submitterId
+      (char: ICharacter) => char.id === submitterId
     );
+    console.log('character:', character);
 
     if (character) {
-      getCharacterCoordinates(character.id)
+      fetchCoordinates(character.id)
         .then((coordinates) => {
           if (coordinates) {
+            console.log('fetchedCoordinates:', coordinates);
             const x = coordinates.x;
             const y = coordinates.y;
             const { x: startX, y: startY } = getActualCoords(

@@ -1,4 +1,3 @@
-// import Image from 'next/image';
 'use client';
 
 interface IGameImageProps {
@@ -23,13 +22,11 @@ function GameImage({ image, name, onImageClick, foundList }: IGameImageProps) {
         height='100%'
         onClick={onImageClick}
         draggable={false}
-        // input-game-image
-        className='block w-full mt-16'
+        className='block w-full mt-16 cursor-crosshair'
       />
 
       {foundList.map((found, index) => (
         <div
-          // found-item
           className='font-bold p-1 rounded-md text-center text-xs max-w-[100px]'
           data-testid='found-item'
           style={{ position: 'absolute', left: found.x, top: found.y }}
