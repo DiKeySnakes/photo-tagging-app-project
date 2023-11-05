@@ -88,8 +88,8 @@ function GameLevel(levels: IGameLevelParams) {
       // Assuming levelData from the prop includes the characters property
       const img = new Image();
       img.src = levelData.image;
-      img.width = 500;
-      img.height = 500;
+      img.width = imageRef.current?.scrollWidth ?? 0;
+      img.height = imageRef.current?.scrollHeight ?? 0;
       originalImg.current = img;
     }
 
@@ -129,7 +129,9 @@ function GameLevel(levels: IGameLevelParams) {
   const getActualCoords = (x: number, y: number) => {
     // Gets original image's x and y percentage
     const originalImgRef = originalImg.current;
+    console.log('originalImgRef:', originalImgRef);
     const imageRefElement = imageRef.current;
+    console.log('imageRefElement:', imageRefElement);
 
     if (!originalImgRef || !imageRefElement) {
       // Handle the case where the refs are not set
@@ -213,13 +215,16 @@ function GameLevel(levels: IGameLevelParams) {
               x.startX,
               y.startY
             );
+            console.log('start x, y:', { x: startX, y: startY });
             const { x: endX, y: endY } = getActualCoords(x.endX, y.endY);
+            console.log('end x, y:', { x: endX, y: endY });
 
             if (
               inRange(startX, endX, coordsClicked.x) &&
               inRange(startY, endY, coordsClicked.y)
             ) {
               (character as ICharacter).found = true;
+              console.log('FOUND!!!');
               const foundListItem: IFoundListItem = {
                 x: x.startX,
                 y: y.startY,
