@@ -22,22 +22,21 @@ function Leaderboard() {
     if (level) setActiveLevel(level);
   }, [levelId, levels]);
 
-  document.body.style.overflow = 'unset';
+  // document.body.style.overflow = 'unset';
 
   if (levels == null) return <Loading />;
 
   return (
-    <div className='leaderboard'>
-      <h1 className='leaderboard-title'>
+    <div className='px-6 py-3'>
+      <h1 className='text-center text-3xl font-semibold my-5'>
         {activeLevel ? activeLevel.name : 'Select a level'}
       </h1>
-      <div className='leaderboard-levels'>
+      <div className='w-ful flex flex-row flex-wrap justify-center gap-6 mb-4 pb-4'>
         {levels.map((level) => (
           <button
             type='button'
             key={level.id}
             aria-label='level'
-            className='leaderboard-level'
             onClick={() => setActiveLevel(level)}
             data-isActive={activeLevel ? level.id === activeLevel.id : false}>
             <LevelPreview level={level} />
@@ -45,7 +44,7 @@ function Leaderboard() {
         ))}
       </div>
 
-      <h2 className='leaderboard-title'>
+      <h2 className='text-center text-3xl font-semibold my-5'>
         {activeLevel ? `Leaderboard - ${activeLevel.name}` : ''}
       </h2>
       <LeaderboardTable

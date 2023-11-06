@@ -1,33 +1,19 @@
-import { Suspense } from 'react';
 import Leaderboard from '../components/Leaderboard';
 import Header from '../components/Header';
-
-function LeaderboardFallback() {
-  return <>placeholder</>;
-}
-
-function GithubLink() {
-  return (
-    <a
-      href='#'
-      className='github-repo'
-      target='_blank'
-      rel='noreferrer'
-      aria-label='GitHub Repo'>
-      <span>icon here</span>
-    </a>
-  );
-}
+import Footer from '../components/Footer';
+import SecondaryLinks from '../components/SecondaryLinks';
 
 export default function LeaderboardPage() {
   return (
-    <>
-      <Header>
-        <GithubLink />
+    <main>
+      <Header className='flex flex-row content-between p-4 sticky top-0 z-10 bg-base-200 shadow-sm'>
+        <p className='w-full text-3xl text-red-500 italic font-bold'>
+          Pixel Hunt
+        </p>
+        <SecondaryLinks />
       </Header>
-      <Suspense fallback={<LeaderboardFallback />}>
-        <Leaderboard />
-      </Suspense>
-    </>
+      <Leaderboard />
+      <Footer />
+    </main>
   );
 }

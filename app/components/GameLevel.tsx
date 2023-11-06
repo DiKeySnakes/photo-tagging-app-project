@@ -3,12 +3,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import GameStartModal from './GameStartModal';
+import GameEndModal from './GameEndModal';
 import Loading from './Loading';
 import Notification from './Notification';
 import LevelHeader from './LevelHeader';
 import CharactersDropdown from './CharactersDropdown';
 import GameImage from './GameImage';
-import GameEnd from './GameEnd';
 import PageNotFound from './PageNotFound';
 import { ICharacter } from './Character';
 import { LeaderboardEntry } from '@prisma/client';
@@ -56,10 +56,8 @@ function GameLevel(levels: IGameLevelParams) {
   const imageRef = useRef<HTMLDivElement | null>(null);
   const originalImg = useRef<HTMLImageElement | null>(null);
 
-  const openModal = () => {
-    const modalElement = document.getElementById(
-      'game-start-modal'
-    ) as HTMLFormElement;
+  const openModal = (id: string) => {
+    const modalElement = document.getElementById(id) as HTMLFormElement;
     if (modalElement) {
       modalElement.showModal();
     } else {
@@ -68,10 +66,8 @@ function GameLevel(levels: IGameLevelParams) {
     return null;
   };
 
-  const closeModal = () => {
-    const modalElement = document.getElementById(
-      'game-start-modal'
-    ) as HTMLFormElement;
+  const closeModal = (id: string) => {
+    const modalElement = document.getElementById(id) as HTMLFormElement;
     if (modalElement) {
       modalElement.close();
     } else {
@@ -88,9 +84,11 @@ function GameLevel(levels: IGameLevelParams) {
       // Assuming levelData from the prop includes the characters property
       const img = new Image();
       img.src = levelData.image;
-      img.width = imageRef.current?.scrollWidth ?? 0;
-      img.height = imageRef.current?.scrollHeight ?? 0;
-      originalImg.current = img;
+      img.onload = () => {
+        img.width = imageRef.current?.scrollWidth ?? 0;
+        img.height = imageRef.current?.scrollHeight ?? 0;
+        originalImg.current = img;
+      };
     }
 
     setLevel(levelData || 'not found');
@@ -111,7 +109,7 @@ function GameLevel(levels: IGameLevelParams) {
       25
     );
     setTimer(intervalId);
-    closeModal();
+    closeModal('game-start-modal');
   };
 
   useEffect(() => {
@@ -129,9 +127,9 @@ function GameLevel(levels: IGameLevelParams) {
   const getActualCoords = (x: number, y: number) => {
     // Gets original image's x and y percentage
     const originalImgRef = originalImg.current;
-    console.log('originalImgRef:', originalImgRef);
+    // console.log('originalImgRef:', originalImgRef);
     const imageRefElement = imageRef.current;
-    console.log('imageRefElement:', imageRefElement);
+    // console.log('imageRefElement:', imageRefElement);
 
     if (!originalImgRef || !imageRefElement) {
       // Handle the case where the refs are not set
@@ -260,9 +258,10 @@ function GameLevel(levels: IGameLevelParams) {
     // relative?
     <div className=''>
       <GameStartModal onStart={onStart} level={level} />
-      {!isStarted && openModal()}
+      <GameEndModal levelId={level.id} timeTaken={timeTaken} />
+      {!isStarted && openModal('game-start-modal')}
       {/* {!isStarted && <p>Game instructions here</p>} */}
-      {isGameOver && <GameEnd levelId={level.id} timeTaken={timeTaken} />}
+      {isGameOver && openModal('game-end-modal')}
       <LevelHeader timeTaken={timeTaken} characters={level.characters} />
 
       <div className='relative'>

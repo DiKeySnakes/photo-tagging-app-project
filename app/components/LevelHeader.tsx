@@ -14,7 +14,7 @@ function LevelHeader({ characters, timeTaken }: ILevelHeaderProps) {
 
   return (
     <Header
-      className='fixed top-0 left-0 z-10 w-full bg-base-300
+      className='fixed top-0 left-0 z-10 w-full bg-base-200
     flex flex-row justify-around items-center gap-2 px-4 h-16'>
       <Timer timeTaken={timeTaken} />
 

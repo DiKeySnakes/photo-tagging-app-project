@@ -13,11 +13,15 @@ interface ILeaderboardTableProps {
 
 function LeaderboardTable({ leaderboard }: ILeaderboardTableProps) {
   if (!leaderboard) {
-    return <p className='no-active-level'>No level selected.</p>;
+    return <p className='text-center text-2xl my-5'>No level selected.</p>;
   }
 
   if (!leaderboard.length) {
-    return <p className='no-submissions'>No submissions yet, be the first!</p>;
+    return (
+      <p className='text-center text-2xl my-5'>
+        No submissions yet, be the first!
+      </p>
+    );
   }
 
   // Assuming you have an array of LeaderboardEntry objects
@@ -34,17 +38,25 @@ function LeaderboardTable({ leaderboard }: ILeaderboardTableProps) {
   });
 
   return (
-    <div className='leaderboard-table-container'>
-      <table className='leaderboard-table'>
-        <thead>
+    <div className='overflow-auto'>
+      <table className=' w-full text-center m-auto rounded-3xl border-collapse'>
+        <thead className='border-[1px] border-solid'>
           <tr>
-            <th scope='col'>#</th>
-            <th scope='col'>Name</th>
-            <th scope='col'>Time</th>
-            <th scope='col'>Date</th>
+            <th className='px-4 py-5 text-3xl' scope='col'>
+              #
+            </th>
+            <th className='px-4 py-5 text-3xl' scope='col'>
+              Name
+            </th>
+            <th className='px-4 py-5 text-3xl' scope='col'>
+              Time
+            </th>
+            <th className='px-4 py-5 text-3xl' scope='col'>
+              Date
+            </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className='px-4 py-5 text-2xl'>
           {sortedLeaderboard.map((submission, index) => (
             <LeaderboardSubmission
               place={index + 1}

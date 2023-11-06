@@ -29,13 +29,17 @@ const LeaderboardSubmission: React.FC<ILeaderboardSubmissionProps> = ({
   });
 
   return (
-    <tr className='leaderboard-submission'>
-      <td className='submission-place'>{getNumberWithOrdinal(place)}</td>
-      <td className='submission-name'>
+    <tr className='border-[1px] border-solid'>
+      <td className='px-4 py-5 text-2xl font-semibold'>
+        {getNumberWithOrdinal(place)}
+      </td>
+      <td className='px-4 py-5 text-2xl font-semibold'>
         <span className='submission-name-text'>{name}</span>
       </td>
-      <td className='submission-time'>{formatTimeDuration(timeTaken)}</td>
-      <td className='submission-date' title={distanceToNow}>
+      <td className='px-4 py-5 text-2xl font-semibold'>
+        {formatTimeDuration(timeTaken)}
+      </td>
+      <td className='px-4 py-5 text-2xl font-semibold' title={distanceToNow}>
         {formattedDate}
       </td>
     </tr>
