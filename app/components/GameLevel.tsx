@@ -78,7 +78,6 @@ function GameLevel(levels: IGameLevelParams) {
 
   useEffect(() => {
     const levelData = levels.levels.find((item) => item.id === id);
-    console.log('levelData:', levelData);
 
     if (levelData) {
       // Assuming levelData from the prop includes the characters property
@@ -92,7 +91,6 @@ function GameLevel(levels: IGameLevelParams) {
     }
 
     setLevel(levelData || 'not found');
-    console.log('level:', levelData);
   }, [id, levels]);
 
   // Hide dropdown on resize since x and y coords will be different
@@ -127,9 +125,7 @@ function GameLevel(levels: IGameLevelParams) {
   const getActualCoords = (x: number, y: number) => {
     // Gets original image's x and y percentage
     const originalImgRef = originalImg.current;
-    // console.log('originalImgRef:', originalImgRef);
     const imageRefElement = imageRef.current;
-    // console.log('imageRefElement:', imageRefElement);
 
     if (!originalImgRef || !imageRefElement) {
       // Handle the case where the refs are not set
@@ -153,7 +149,6 @@ function GameLevel(levels: IGameLevelParams) {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    console.log('x, y:', x, y);
     setCoordsClicked({
       x: e.clientX - rect.left,
       y: e.clientY - rect.top,
@@ -193,36 +188,29 @@ function GameLevel(levels: IGameLevelParams) {
   const handleCharacterClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     setIsDropdownOpen(false);
     const submitter = event.currentTarget as HTMLAnchorElement;
-    console.log('submitter:', submitter);
     const submitterId = submitter.dataset.id;
-    console.log('submitterId:', submitterId);
 
     const character = (level as ILevel)?.characters.find(
       (char: ICharacter) => char.id === submitterId
     );
-    console.log('character:', character);
 
     if (character) {
       fetchCoordinates(character.id)
         .then((coordinates) => {
           if (coordinates) {
-            console.log('fetchedCoordinates:', coordinates);
             const x = coordinates.x;
             const y = coordinates.y;
             const { x: startX, y: startY } = getActualCoords(
               x.startX,
               y.startY
             );
-            console.log('start x, y:', { x: startX, y: startY });
             const { x: endX, y: endY } = getActualCoords(x.endX, y.endY);
-            console.log('end x, y:', { x: endX, y: endY });
 
             if (
               inRange(startX, endX, coordsClicked.x) &&
               inRange(startY, endY, coordsClicked.y)
             ) {
               (character as ICharacter).found = true;
-              console.log('FOUND!!!');
               const foundListItem: IFoundListItem = {
                 x: x.startX,
                 y: y.startY,
@@ -241,9 +229,6 @@ function GameLevel(levels: IGameLevelParams) {
     }
   };
 
-  // Only allow scroll if the game is started
-  // document.body.style.overflow = isStarted && !isGameOver ? 'unset' : 'hidden';
-
   if (level === 'not found') return <PageNotFound />;
   if (level == null) return <Loading />;
 
@@ -255,12 +240,10 @@ function GameLevel(levels: IGameLevelParams) {
   };
 
   return (
-    // relative?
-    <div className=''>
+    <div>
       <GameStartModal onStart={onStart} level={level} />
       <GameEndModal levelId={level.id} timeTaken={timeTaken} />
       {!isStarted && openModal('game-start-modal')}
-      {/* {!isStarted && <p>Game instructions here</p>} */}
       {isGameOver && openModal('game-end-modal')}
       <LevelHeader timeTaken={timeTaken} characters={level.characters} />
 

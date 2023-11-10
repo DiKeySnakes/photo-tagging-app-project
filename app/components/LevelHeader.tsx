@@ -21,7 +21,7 @@ function LevelHeader({ characters, timeTaken }: ILevelHeaderProps) {
       <div className='dropdown dropdown-hover dropdown-end'>
         <label
           tabIndex={0}
-          className='btn btn-circle btn-primary m-4'
+          className='btn btn-circle btn-info m-4'
           onMouseEnter={() => setIsCharactersOpen(true)}
           onMouseLeave={() => setIsCharactersOpen(false)}>
           {charactersLeft.length}
@@ -31,7 +31,7 @@ function LevelHeader({ characters, timeTaken }: ILevelHeaderProps) {
             tabIndex={0}
             className='dropdown-content z-[1] menu p-2
             shadow bg-base-100 rounded-box w-96 grid grid-cols-2'>
-            {characters.map((character) => (
+            {charactersLeft.map((character) => (
               <li key={character.id} data-found={!!character.found}>
                 <Character key={character.id} character={character} />
               </li>

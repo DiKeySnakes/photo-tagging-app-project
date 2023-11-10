@@ -27,7 +27,7 @@ function GameImage({ image, name, onImageClick, foundList }: IGameImageProps) {
 
       {foundList.map((found, index) => (
         <div
-          className='font-bold p-1 rounded-md text-center text-xs max-w-[100px]'
+          className='font-bold p-1 rounded-md text-center text-xs text-white max-w-[100px]'
           data-testid='found-item'
           style={{ position: 'absolute', left: found.x, top: found.y }}
           key={index}>

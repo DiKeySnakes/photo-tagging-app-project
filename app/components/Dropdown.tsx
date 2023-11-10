@@ -57,7 +57,6 @@ function Dropdown({ x, y, children, containerSize }: IDropdownProps) {
         left: position.left,
         top: position.top,
       }}
-      //   size={children?.length || 1}
       ref={selectRef}>
       {children}
     </ul>
