@@ -18,7 +18,7 @@ const defaultProps: Partial<ILevelPreviewProps> = {
 function LevelPreview({ level, showCharacters }: ILevelPreviewProps) {
   return (
     <div
-      className='h-full p-8 border-2 border-neutral rounded-xl
+      className='h-full p-8 border-[1px] border-gray-500 rounded-xl
       transform scale-100 hover:scale-110 transition-transform ease-in-out duration-300'
       data-characters-showing={showCharacters}>
       <div className='flex justify-center mb-4'>

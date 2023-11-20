@@ -57,23 +57,33 @@ function GameLevel(levels: IGameLevelParams) {
   const originalImg = useRef<HTMLImageElement | null>(null);
 
   const openModal = (id: string) => {
-    const modalElement = document.getElementById(id) as HTMLFormElement;
+    const modalElement = document.getElementById(id) as HTMLDialogElement;
+
     if (modalElement) {
-      modalElement.showModal();
+      if (modalElement.showModal) {
+        modalElement.showModal();
+      } else {
+        // Fallback for browsers that don't support showModal
+        modalElement.style.display = 'block';
+      }
     } else {
-      console.error("Modal element with ID 'game-start-modal' not found");
+      console.error(`Modal element with ID '${id}' not found`);
     }
-    return null;
   };
 
   const closeModal = (id: string) => {
-    const modalElement = document.getElementById(id) as HTMLFormElement;
+    const modalElement = document.getElementById(id) as HTMLDialogElement;
+
     if (modalElement) {
-      modalElement.close();
+      if (modalElement.close) {
+        modalElement.close();
+      } else {
+        // Fallback for browsers that don't support close
+        modalElement.style.display = 'none';
+      }
     } else {
-      console.error("Modal element with ID 'game-start-modal' not found");
+      console.error(`Modal element with ID '${id}' not found`);
     }
-    return null;
   };
 
   useEffect(() => {
@@ -121,6 +131,18 @@ function GameLevel(levels: IGameLevelParams) {
       if (timer) clearInterval(timer);
     }
   }, [foundList.length, level, timer]);
+
+  useEffect(() => {
+    if (!isStarted && level !== null) {
+      openModal('game-start-modal');
+    }
+  }, [isStarted, level]);
+
+  useEffect(() => {
+    if (isGameOver && level !== null) {
+      openModal('game-end-modal');
+    }
+  }, [isGameOver, level]);
 
   const getActualCoords = (x: number, y: number) => {
     // Gets original image's x and y percentage
@@ -243,10 +265,7 @@ function GameLevel(levels: IGameLevelParams) {
     <div>
       <GameStartModal onStart={onStart} level={level} />
       <GameEndModal levelId={level.id} timeTaken={timeTaken} />
-      {!isStarted && openModal('game-start-modal')}
-      {isGameOver && openModal('game-end-modal')}
       <LevelHeader timeTaken={timeTaken} characters={level.characters} />
-
       <div className='relative'>
         <Notification
           message={notificationText}

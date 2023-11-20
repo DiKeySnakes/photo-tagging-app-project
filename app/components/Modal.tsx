@@ -24,12 +24,3 @@ const Modal: React.FC<IModalProps> = ({ id, children }) => {
 };
 
 export default Modal;
-
-// const closeModal = () => {
-//     (document.getElementById('game-start-modal') as HTMLFormElement).close();
-//   };
-
-// const openModal = () =>
-//   (
-//     document.getElementById('game-start-modal') as HTMLFormElement
-//   ).showModal();

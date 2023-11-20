@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-// import getLevels from '@/app/helpers/getLevels';
 import { ICharacter } from '../components/Character';
 import { LeaderboardEntry } from '@prisma/client';
 
@@ -22,6 +21,7 @@ export default function useLevels() {
       headers: {
         'Content-Type': 'application/json',
       },
+      cache: 'no-store',
     });
     const levelsData = await res.json();
 

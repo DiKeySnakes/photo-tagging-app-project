@@ -50,9 +50,7 @@ function Timer({ timeTaken }: ITimerProps): JSX.Element {
 
   formattedTimer += `${duration.minutes}:${duration.seconds}:${duration.ms}`;
 
-  return (
-    <p className='font-bold font-mono text-2xl text-info'>{formattedTimer}</p>
-  );
+  return <p className='font-bold font-mono text-2xl'>{formattedTimer}</p>;
 }
 
 export default Timer;

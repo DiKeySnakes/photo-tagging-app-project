@@ -1,12 +1,12 @@
-import getLevels from '@/app/helpers/getLevels';
+import getAllLeaderboardEntries from '@/app/helpers/getAllLeaderboardEntries';
 import { NextResponse } from 'next/server';
 export const revalidate = 5;
 
 export async function GET() {
   try {
-    const levels = await getLevels();
+    const entries = await getAllLeaderboardEntries();
 
-    return NextResponse.json(levels);
+    return NextResponse.json(entries);
   } catch (error) {
     return new NextResponse('Internal Error', { status: 500 });
   }

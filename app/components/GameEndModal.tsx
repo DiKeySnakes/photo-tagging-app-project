@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import formatTimeDuration from '../helpers/formatTimeDuration';
@@ -45,7 +47,7 @@ function GameEndModal({ timeTaken, levelId }: IGameEndProps) {
     try {
       await createNewLeaderboardEntry(levelId, name, timeTaken);
       closeModal('game-end-modal');
-      router.push(`/leaderboard?level=${levelId}`);
+      router.push(`/newEntry?level=${levelId}`);
     } catch (error) {
       setIsErrorActive(true);
       setIsLoading(false);
