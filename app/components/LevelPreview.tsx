@@ -32,7 +32,6 @@ function LevelPreview({ level, showCharacters }: ILevelPreviewProps) {
             alt={level.name}
             quality={100}
             fill
-            // sizes='100vw'
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
             className='rounded-xl'
             style={{ objectFit: 'cover' }}

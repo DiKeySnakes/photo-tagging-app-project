@@ -48,7 +48,6 @@ function Leaderboard() {
             type='button'
             key={level.id}
             aria-label='level'
-            // onClick={() => setActiveLevel({ ...level, leaderboard: [] })}
             onClick={() => router.push('/leaderboard')}
             data-isActive={activeLevel ? level.id === activeLevel.id : false}>
             <LevelPreview level={level} />
